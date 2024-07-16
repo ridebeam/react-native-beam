@@ -1370,7 +1370,10 @@ public abstract class DevSupportManagerBase
       DevSupportManager.PackagerLocationCustomizer packagerLocationCustomizer) {
     mPackagerLocationCustomizer = packagerLocationCustomizer;
   }
- 
+
+
+  public static final int RECEIVER_EXPORTED = 2; // 0x2
+  public static final int RECEIVER_NOT_EXPORTED = 4; // 0x4
   /**
    * Starting with Android 14, apps and services that target Android 14 and use context-registered
    * receivers are required to specify a flag to indicate whether or not the receiver should be
@@ -1382,7 +1385,7 @@ public abstract class DevSupportManagerBase
       Context context, BroadcastReceiver receiver, IntentFilter filter, boolean exported) {
     if (Build.VERSION.SDK_INT >= 34 && context.getApplicationInfo().targetSdkVersion >= 34) {
       context.registerReceiver(
-          receiver, filter, exported ? Context.RECEIVER_EXPORTED : Context.RECEIVER_NOT_EXPORTED);
+          receiver, filter, exported ? RECEIVER_EXPORTED : RECEIVER_NOT_EXPORTED);
     } else {
       context.registerReceiver(receiver, filter);
     }
